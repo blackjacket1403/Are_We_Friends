@@ -43,7 +43,7 @@ export default function Landing({ onCreate, onJoin, connecting }) {
           <div className="stack">
             <div className="field">
               <label htmlFor="name">Your name</label>
-              <input id="name" className="input" value={name} maxLength={18} placeholder="e.g. Satpal" onChange={(e) => setName(e.target.value)} autoComplete="off" />
+              <input id="name" className="input" value={name} maxLength={18} placeholder="e.g. blackjacket1403" onChange={(e) => setName(e.target.value)} autoComplete="off" />
             </div>
 
             {mode === 'join' && (
