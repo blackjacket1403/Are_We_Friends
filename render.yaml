@@ -1,0 +1,16 @@
+# Render Blueprint — deploys "Are We Friends?" as a single web service.
+# 1. Push this repo to GitHub.
+# 2. On render.com → New → Blueprint → pick this repo. That's it.
+services:
+  - type: web
+    name: are-we-friends
+    runtime: node
+    plan: free
+    # Build the client bundle, then the server serves it on the same port.
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    healthCheckPath: /healthz
+    autoDeploy: true
+    envVars:
+      - key: NODE_VERSION
+        value: "20"

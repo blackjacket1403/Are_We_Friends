@@ -1,0 +1,25 @@
+{
+  "name": "are-we-friends",
+  "version": "1.0.0",
+  "description": "Are We Friends? — a Codenames x Skribbl multiplayer party game. One artist draws, one guesser clicks, the assassin card asks the hard question.",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "start": "node server/index.js",
+    "build": "cd client && npm install && npm run build",
+    "dev": "concurrently -n server,client -c cyan,magenta \"npm run dev:server\" \"npm run dev:client\"",
+    "dev:server": "nodemon server/index.js",
+    "dev:client": "cd client && npm run dev",
+    "postinstall": "echo \"Run 'npm run build' to bundle the client, then 'npm start'.\""
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "socket.io": "^4.7.5"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "nodemon": "^3.1.0"
+  }
+}
