@@ -5,6 +5,14 @@ const TEAMS = [
   { key: 'coral', name: 'The Corals', sub: 'one sketches · one guesses' },
 ];
 
+const DURATIONS = [
+  { ms: 60000, label: '1:00' },
+  { ms: 120000, label: '2:00' },
+  { ms: 180000, label: '3:00' },
+  { ms: 240000, label: '4:00' },
+  { ms: 300000, label: '5:00' },
+];
+
 function Seat({ p, isMe }) {
   return (
     <div className="seat">
@@ -54,6 +62,22 @@ export default function Lobby({ state, me, actions, showToast }) {
           <button className="btn btn-ghost btn-sm" onClick={copyCode}>Copy code</button>
           <button className="btn btn-ghost btn-sm" onClick={copyLink}>Copy invite link</button>
         </div>
+      </div>
+
+      <div className="settings-bar">
+        <span className="s-label">Turn length</span>
+        <div className="dur-opts">
+          {DURATIONS.map((d) => (
+            <button
+              key={d.ms}
+              className={`dur ${state.turnMs === d.ms ? 'on' : ''}`}
+              disabled={!me.isHost}
+              aria-pressed={state.turnMs === d.ms}
+              onClick={() => me.isHost && actions.setTurnMs(d.ms)}
+            >{d.label}</button>
+          ))}
+        </div>
+        <span className="by">{me.isHost ? 'each team draws for this long per turn' : 'set by the host'}</span>
       </div>
 
       <div className="teams">

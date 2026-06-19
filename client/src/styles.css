@@ -230,6 +230,29 @@ body {
 .code-label { font-family: var(--mono); font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.22em; color: var(--muted); }
 .code-value { font-family: var(--mono); font-weight: 700; font-size: 2rem; letter-spacing: 0.34em; color: var(--cyan); }
 
+.settings-bar {
+  display: flex; align-items: center; gap: 0.8rem; flex-wrap: wrap;
+  background: var(--ink-2);
+  border: 2px solid var(--line-strong);
+  border-radius: 14px;
+  padding: 0.7rem 1rem;
+  margin-bottom: 1.3rem;
+}
+.settings-bar .s-label { font-family: var(--mono); font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.18em; color: var(--muted); }
+.dur-opts { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+.dur {
+  font-family: var(--mono); font-weight: 700; font-size: 0.85rem;
+  color: var(--chalk); background: var(--ink);
+  border: 2px solid var(--line-strong); border-radius: 10px;
+  padding: 0.35rem 0.7rem; cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+}
+.dur:hover:not(:disabled) { transform: translateY(-1px); border-color: var(--chalk-dim); }
+.dur.on { background: var(--cyan); color: var(--cyan-ink); border-color: var(--cyan); }
+.dur:disabled { cursor: default; opacity: 0.85; }
+.dur.on:disabled { opacity: 1; }
+.settings-bar .by { font-family: var(--hand); font-size: 1.1rem; color: var(--chalk-dim); margin-left: auto; }
+
 .teams { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin-bottom: 1.4rem; }
 .team-col {
   background: var(--ink-2);

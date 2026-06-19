@@ -36,6 +36,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('setSeat', (payload) => game.setSeat(socket, payload || {}));
+  socket.on('setTurnMs', (payload) => game.setTurnMs(socket, payload || {}));
   socket.on('startGame', () => game.startGame(socket));
   socket.on('draw', (stroke) => game.draw(socket, stroke));
   socket.on('requestSync', () => game.requestSync(socket));

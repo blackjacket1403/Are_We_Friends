@@ -78,6 +78,7 @@ export default function App() {
 
   const actions = {
     setSeat: (team, role) => socket.emit('setSeat', { team, role }),
+    setTurnMs: (ms) => socket.emit('setTurnMs', { ms }),
     startGame: () => socket.emit('startGame'),
     guess: (index) => socket.emit('guess', { index }),
     endTurn: () => socket.emit('endTurn'),

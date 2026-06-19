@@ -1,7 +1,8 @@
 const { WORDS } = require('./words');
 
 const BOARD_SIZE = 25;
-const TURN_MS = 180000; // 3 minutes per turn
+const TURN_MS = 180000; // default: 3 minutes per turn
+const TURN_OPTIONS = [60000, 120000, 180000, 240000, 300000]; // 1–5 min, host-selectable
 const RECONNECT_GRACE_MS = 60000; // keep a slot warm for a minute after a drop
 const CODE_ALPHABET = 'ABCDEFGHJKLMNPQRSTUVWXYZ'; // no I/O to avoid 1/0 confusion
 
@@ -64,6 +65,7 @@ class GameServer {
       code,
       phase: 'lobby',
       players: new Map(),
+      turnMs: TURN_MS,
       board: [],
       startingTeam: null,
       counts: { cyan: 0, coral: 0 },
@@ -144,6 +146,18 @@ class GameServer {
     this.broadcast(room);
   }
 
+  setTurnMs(socket, { ms }) {
+    const ctx = this.socketIndex.get(socket.id);
+    if (!ctx) return;
+    const room = this.rooms.get(ctx.code);
+    if (!room || room.phase !== 'lobby') return;
+    const player = room.players.get(ctx.pid);
+    if (!player || !player.isHost) return;
+    if (!TURN_OPTIONS.includes(ms)) return;
+    room.turnMs = ms;
+    this.broadcast(room);
+  }
+
   teamReadiness(room) {
     const status = {
       cyan: { artist: false, guesser: false, count: 0 },
@@ -198,7 +212,7 @@ class GameServer {
 
   startTimer(room) {
     this.clearTimer(room.code);
-    room.deadline = Date.now() + TURN_MS;
+    room.deadline = Date.now() + room.turnMs;
     const interval = setInterval(() => {
       if (room.phase !== 'playing') return this.clearTimer(room.code);
       if (Date.now() >= room.deadline) {
@@ -397,7 +411,7 @@ class GameServer {
       deadline: room.deadline,
       winner: room.winner,
       lastReason: room.lastReason,
-      turnMs: TURN_MS,
+      turnMs: room.turnMs,
       players: [...room.players.values()].map((p) => ({
         pid: p.pid, name: p.name, team: p.team, role: p.role, connected: p.connected, isHost: p.isHost,
       })),
